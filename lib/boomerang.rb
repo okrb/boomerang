@@ -11,7 +11,7 @@ require "boomerang/api_call"
 require "boomerang/response"
 
 class Boomerang
-  VERSION   = "0.0.1"
+  VERSION   = "0.0.2"
   ENDPOINTS = { cbui:         "https://authorize.payments.amazon.com/" +
                               "cobranded-ui/actions/start",
                 cbui_sandbox: "https://authorize.payments-sandbox.amazon.com/" +

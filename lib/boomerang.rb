@@ -11,7 +11,7 @@ require "boomerang/api_call"
 require "boomerang/response"
 
 class Boomerang
-  VERSION   = "0.0.2"
+  VERSION   = "0.0.3"
   ENDPOINTS = { cbui:         "https://authorize.payments.amazon.com/" +
                               "cobranded-ui/actions/start",
                 cbui_sandbox: "https://authorize.payments-sandbox.amazon.com/" +
@@ -52,6 +52,8 @@ class Boomerang
                         %w[callerReference recipientPaysFee]
                       when "Recurring"
                         %w[callerReference recurringPeriod transactionAmount]
+                      when "SingleUse"
+                        %w[callerReference recipientToken transactionAmount]
                       end
     required_fields.each do |required_field|
       unless parameters[required_field]

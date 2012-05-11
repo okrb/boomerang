@@ -54,6 +54,8 @@ class Boomerang
                         %w[callerReference recurringPeriod transactionAmount]
                       when "SingleUse"
                         %w[callerReference recipientToken transactionAmount]
+                      when "MultiUse"
+                        %w[callerReference globalAmountLimit recipientTokenList]
                       end
     required_fields.each do |required_field|
       unless parameters[required_field]
@@ -61,6 +63,12 @@ class Boomerang
       end
     end
     
+    if pipeline == "MultiUse" and
+       parameters["recipientTokenList"].is_a? Array
+      parameters["recipientTokenList"] =
+        parameters["recipientTokenList"].join(",")
+    end
+
     url        = ENDPOINTS[use_sandbox? ? :cbui_sandbox : :cbui]
     signature  = Signature.new("GET", url, parameters)
     signature.sign(@access_key_id, @secret_access_key)

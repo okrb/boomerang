@@ -37,8 +37,13 @@ class Boomerang
                                original_error: error )
             end
           else
+            if response.body.size > 0
+              err_body = response.body
+            else
+              err_body = "#{response.message} (#{response.class.name})"
+            end
             fail wrap_error( "HTTP",
-                             "#{response.message} (#{response.class.name})",
+                             err_body,
                              http_response: response )
           end
         }

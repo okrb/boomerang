@@ -139,4 +139,22 @@ class Boomerang
                              "ResponseMetadata/RequestId" )
     parsed[:verification_status] == "Success"
   end
+
+  def cancel_token(parameters)
+    parameters = Utilities.CamelCase(parameters)
+    %w[ TokenId ].each do |required_field|
+      unless parameters[required_field]
+        fail ArgumentError, "#{required_field} is a required parameter"
+      end
+    end
+
+    call = APICall.new( ENDPOINTS[use_sandbox? ? :fps_sandbox : :fps],
+                        :cancel_token,
+                        parameters )
+    call.sign(@access_key_id, @secret_access_key)
+
+    Response.new(call.response)
+            .parse( "/xmlns:CancelTokenResponse/",
+                    "ResponseMetadata/RequestId" )
+  end
 end
